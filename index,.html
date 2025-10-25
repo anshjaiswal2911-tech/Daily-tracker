@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Hub - Daily Tracker</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Progress Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="room" id="room">
+        <!-- ============ LOGIN VIEW ============ -->
+        <div class="login-view" id="loginView">
+            <div class="lamp-container">
+                <div class="lamp-cord"></div>
+                <div class="lamp" id="lamp">
+                    <div class="lamp-bulb"></div>
+                    <div class="lamp-cap"></div>
+                </div>
+                <div class="light-effect" id="lightEffect"></div>
+            </div>
+            <div class="login-container" id="loginContainer">
+                <div class="login-box">
+                    <h2><i class="fas fa-user-circle"></i> Login</h2>
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <input type="text" id="username" required>
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <button type="submit" class="login-btn">Enter Dashboard</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TRACKER VIEW (Initially Hidden) ============ -->
+        <div class="tracker-view" id="trackerView">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <h2><i class="fas fa-rocket"></i> Hub</h2>
+                </div>
+                <ul class="sidebar-nav">
+                    <li class="nav-item active" data-view="home-view"><i class="fas fa-home"></i> Home</li>
+                    <li class="nav-item" data-view="tasks-view"><i class="fas fa-tasks"></i> Tasks</li>
+                    <li class="nav-item" data-view="habits-view"><i class="fas fa-sync-alt"></i> Habits</li>
+                    <li class="nav-item" data-view="goals-view"><i class="fas fa-bullseye"></i> Goals</li>
+                    <li class="nav-item" data-view="journal-view"><i class="fas fa-book"></i> Journal</li>
+                    <li class="nav-item" data-view="timer-view"><i class="fas fa-clock"></i> Timer</li>
+                    <li class="nav-item" data-view="notes-view"><i class="fas fa-sticky-note"></i> Notes</li>
+                    <li class="nav-item" data-view="progress-view"><i class="fas fa-chart-bar"></i> Progress</li>
+                    <li class="nav-item" data-view="settings-view"><i class="fas fa-cog"></i> Settings</li>
+                </ul>
+                <button class="logout-btn" id="logoutBtn" title="Log Out"><i class="fas fa-power-off"></i> Logout</button>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="main-content-area">
+                <!-- ============ HOME VIEW ============ -->
+                <section class="content-section active" id="home-view">
+                    <header class="content-header">
+                        <h1>Welcome back, <span id="userName">Champion</span>!</h1>
+                        <p id="currentDate">Loading date...</p>
+                    </header>
+                    <div class="home-grid">
+                        <div class="quote-card">
+                            <i class="fas fa-quote-left"></i>
+                            <p id="dailyQuote">The secret of getting ahead is getting started.</p>
+                        </div>
+                        <div class="stats-summary">
+                            <div class="stat-item"><h3 id="homeTasksLeft">0</h3><p>Tasks Left</p></div>
+                            <div class="stat-item"><h3 id="homePoints">0</h3><p>Points</p></div>
+                        </div>
+                        <div class="weather-widget" id="weatherWidget">
+                            <i class="fas fa-cloud-sun"></i>
+                            <div>
+                                <p id="weatherTemp">--°C</p>
+                                <p id="weatherDesc">--</p>
+                            </div>
+                        </div>
+                        <div class="badges-section">
+                            <h3>Recent Badges</h3>
+                            <div class="badges-list" id="badgesList"></div>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showView('tasks-view')"><i class="fas fa-plus"></i> Add Task</button>
+                            <button class="quick-action-btn" onclick="showView('habits-view')"><i class="fas fa-check"></i> Check Habits</button>
+                            <button class="quick-action-btn" id="focusModeBtn"><i class="fas fa-eye"></i> Focus Mode</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ TASKS VIEW ============ -->
+                <section class="content-section" id="tasks-view">
+                    <header class="content-header">
+                        <h1>Today's Tasks</h1>
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="personal">Personal</button>
+                            <button class="filter-btn" data-filter="work">Work</button>
+                            <button class="filter-btn" data-filter="urgent">Urgent</button>
+                        </div>
+                    </header>
+                    <div class="task-input-container">
+                        <input type="text" id="taskInput" placeholder="What needs to be done?">
+                        <select id="taskCategory">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <select id="taskGoal">
+                            <option value="">No Goal</option>
+                        </select>
+                        <button id="addTaskBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <ul id="taskList"></ul>
+                </section>
+
+                <!-- ============ HABITS VIEW ============ -->
+                <section class="content-section" id="habits-view">
+                    <header class="content-header"><h1>Daily Habits</h1></header>
+                    <div class="habit-input-container">
+                        <input type="text" id="habitInput" placeholder="Create a new habit...">
+                        <button id="addHabitBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="habits-list" id="habitsList"></div>
+                </section>
+
+                <!-- ============ GOALS VIEW ============ -->
+                <section class="content-section" id="goals-view">
+                    <header class="content-header"><h1>My Goals</h1></header>
+                    <div class="goal-input-container">
+                        <input type="text" id="goalInput" placeholder="Define a new long-term goal...">
+                        <button id="addGoalBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="goals-list" id="goalsList"></div>
+                </section>
+
+                <!-- ============ JOURNAL VIEW ============ -->
+                <section class="content-section" id="journal-view">
+                    <header class="content-header"><h1>Daily Journal</h1></header>
+                    <div class="journal-entries" id="journalEntries">
+                        <!-- Entries will be loaded here -->
+                    </div>
+                    <div class="journal-input-area">
+                        <textarea id="journalInput" placeholder="How was your day? What did you learn?"></textarea>
+                        <button id="saveJournalBtn"><i class="fas fa-save"></i> Save Entry</button>
+                    </div>
+                </section>
+
+                <!-- ============ TIMER VIEW ============ -->
+                <section class="content-section" id="timer-view">
+                    <header class="content-header"><h1>Pomodoro Timer</h1></header>
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <span id="timerTime">25:00</span>
+                        </div>
+                        <p id="timerPhase">Work Time</p>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="startTimerBtn"><i class="fas fa-play"></i> Start</button>
+                        <button id="pauseTimerBtn"><i class="fas fa-pause"></i> Pause</button>
+                        <button id="resetTimerBtn"><i class="fas fa-redo"></i> Reset</button>
+                    </div>
+                </section>
+
+                <!-- ============ NOTES VIEW ============ -->
+                <section class="content-section" id="notes-view">
+                    <header class="content-header"><h1>Quick Notes</h1></header>
+                    <textarea id="notesArea" placeholder="Jot down your thoughts, ideas, or anything important..."></textarea>
+                </section>
+
+                <!-- ============ PROGRESS VIEW ============ -->
+                <section class="content-section" id="progress-view">
+                    <header class="content-header"><h1>Your Weekly Progress</h1></header>
+                    <div class="chart-container">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- ============ SETTINGS VIEW ============ -->
+                <section class="content-section" id="settings-view">
+                    <header class="content-header"><h1>Settings</h1></header>
+                    <div class="settings-card">
+                        <h3>Data Management</h3>
+                        <p>Export all your data as a single JSON file. You can import this file later to restore your data.</p>
+                        <button id="exportDataBtn"><i class="fas fa-download"></i> Export All Data</button>
+                    </div>
+                    <div class="settings-card">
+                        <h3>Keyboard Shortcuts</h3>
+                        <ul>
+                            <li><kbd>Ctrl</kbd> + <kbd>N</kbd> : New Task</li>
+                            <li><kbd>Ctrl</kbd> + <kbd>H</kbd> : Toggle Habits</li>
+                            <li><kbd>Ctrl</kbd> + <kbd>J</kbd> : Toggle Journal</li>
+                            <li><kbd>Esc</kbd> : Exit Focus Mode</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- ============ FOCUS MODE OVERLAY ============ -->
+        <div class="focus-mode-overlay" id="focusModeOverlay">
+            <div class="focus-content">
+                <h1 id="focusQuote">Stay focused on your goal.</h1>
+                <div class="focus-timer">
+                    <span id="focusTimerTime">25:00</span>
+                </div>
+                <button id="exitFocusBtn"><i class="fas fa-times"></i> Exit Focus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
