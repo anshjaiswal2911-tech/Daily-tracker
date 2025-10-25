@@ -33,7 +33,7 @@ JavaScript – logic and interactivity
 
 👨‍💻 Author
 
-Ansh — Beginner Frontend Developer
+Ansh — web Developer
 
 "I built this project to learn, improve, and stay consistent — just like the purpose of this tracker!"
 
