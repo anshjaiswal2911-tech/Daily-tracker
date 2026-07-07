@@ -47,7 +47,7 @@ The main idea behind this tracker is to **help users log their daily tasks**, mo
 
 ---
 
-## 💬 Feedback  
+# 💬 Feedback  
 
 If you have any suggestions or ideas, feel free to share them!  
 Your feedback will help me grow as a developer 🙌  
