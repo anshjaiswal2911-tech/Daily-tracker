@@ -13,7 +13,7 @@ The main idea behind this tracker is to **help users log their daily tasks**, mo
 
 ---
 
-## 🚀 Features  
+# 🚀 Features  
 
 ✅ Add, edit, and delete daily tasks  
 ✅ Mark tasks as completed  
